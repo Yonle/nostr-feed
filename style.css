@@ -67,3 +67,9 @@ img, video {
 .profile_info {
   padding: 8px;
 }
+
+@media only screen and (min-width: 960px) {
+  body {
+    margin: 0 12vw;
+  }
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Settings</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<style>
+  div {
+    padding: 5px;
+    border: solid 1px black;
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
+
+  input {
+    width: 70vw;
+    margin-bottom: 5px;
+  }
+
+  h3 {
+    margin-bottom: 10px;
+  }
+</style>
+<body>
+  <noscript>
+    <p style="border: solid 1px red;">This website is a static site that <b>requires JavaScript to work</b> to handle WebSocket connection to Nostr Relay & rendering.</p>
+  </noscript>
+  <h1 style="margin-top: 50px;">Nostr Feed</h1>
+  <p>A small, simple and lightweight nostr timeline feed.</p>
+  <small><a href="https://github.com/Yonle/nostr-feed">Source code</a> - <a href="settings.html">Settings</a></small>
+  <br><br><br>
+  <h2 style="margin-bottom: 20px;">Settings</h2>
+  <div>
+    <h3>Media Proxy</h3>
+    <div>
+      <h4>Bandwidth Hero Server</h4>
+      <p>Address to a working <a href="https://github.com/Yonle/bandwidth-hero-proxy">Bandwidth Hero Proxy</a></p>
+      <input id="bwhero_addr" type="url" placeholder="https://bwhero.example.com" />
+    </div>
+    <div>
+      <h4>Compression Settings</h4>
+      <p>Grayscale</p>
+      <small>Whenever to convert all images to grayscale</small>
+      <input id="bwhero_grayscale" type="number" placeholder="Leave empty to disable. 1 is yes" />
+      <p>Image Quality</p>
+      <small>More is better, Less is lighter. Default is <b>40</b></small><br>
+      <input id="bwhero_quality" type="number" placeholder="Range: 1-100" />
+      <p>Photo Profile Quality</p>
+      <small>More is better, Less is lighter. Default is <b>8</b></small><br>
+      <input id="bwhero_avatar_quality" type="number" placeholder="Range: 1-100" />
+    </div>
+  </div>
+  <button onclick="save()">Save changes</button> <small>or go back to previous page.</small>
+  <script>
+    const g = document.getElementById.bind(document);
+    function save() {
+      localStorage.setItem("bwhero_addr", g("bwhero_addr").value);
+      localStorage.setItem("bwhero_grayscale", g("bwhero_grayscale").value);
+      localStorage.setItem("bwhero_quality", g("bwhero_quality").value);
+      localStorage.setItem("bwhero_avatar_quality", g("bwhero_avatar_quality").value);
+      alert("Changes saved.");
+    }
+  </script>
+</body>
+</html>

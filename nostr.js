@@ -1,0 +1,58 @@
+const query = new URLSearchParams(location.hash.slice(1));
+const relay = query.get("relay");
+
+if (!relay) {
+  const prompt_relayaddr = prompt("Connect to a relay (Usually begins with wss://....):");
+  if (!prompt_relayaddr) {
+    alert("Well then, This project is not gonna work on it is purpose as there are no default relay.\n\nRefresh the page to try again.");
+  } else {
+    location.hash = "#relay=" + prompt_relayaddr;
+    location.reload();
+  }
+}
+const ws = new WebSocket(relay);
+
+ws.addEventListener("message", ({ data }) => {
+  try {
+    data = JSON.parse(data);
+  } catch (e) {
+    // That's it
+    return false;
+  }
+
+  switch (data[0]) {
+    case "NOTICE":
+      console.log("NOTICE:", data[1]);
+      break;
+    case "EVENT":
+      makePostEl(data[2]);
+      break;
+    case "EOSE":
+      switch (data[1]) {
+        case "posts":
+          getProfiles();
+          break;
+        default:
+          if (!data[1].startsWith("profiles_")) return;
+          renderProfiles();
+          afterProfileRender();
+          ws.send(JSON.stringify(["CLOSE", data[1]]));
+          break;
+      }
+      break;
+  }
+})
+
+ws.addEventListener("open", _ => {
+  ws.send(JSON.stringify(["REQ", "posts", { kinds: [0, 1] }]));
+  setTimeout(getProfiles, 3000);
+
+  document.title += " - " + relay;
+});
+
+ws.addEventListener("close", _ => {
+  document.body.innerHTML += '<br><span style="color: red">Disconnected from relay. Refresh the page to reconnect.</span>';
+  console.error("Disconnected from relay. Refresh the page to reconnect.");
+
+  document.title = "Disconnected - " + document.title;
+});

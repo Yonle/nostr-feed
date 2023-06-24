@@ -72,4 +72,8 @@ img, video {
   body {
     margin: 0 12vw;
   }
+
+  img, video {
+    max-width: 72vw;
+  }
 }

@@ -2,6 +2,7 @@ const $ = document.querySelectorAll.bind(document);
 let user_metas = {};
 
 function tMediaURL(url, isAvatar) {
+  if (!url) return "";
   const bwhero_addr = localStorage.getItem("bwhero_addr");
   const grayscale = localStorage.getItem("bwhero_grayscale") ? 1 : 0;
   const quality = localStorage.getItem("bwhero_quality") || 40;
@@ -44,6 +45,7 @@ function renderText(text) {
 
 function makePostEl(data) {
   if (data.kind === 0) {
+    if (user_metas[data.pubkey] && user_metas[data.pubkey].created_at > data.created_at) return; // Ignore old event.
     user_metas[data.pubkey] = data;
     setProfile(data);
     return;
@@ -123,7 +125,7 @@ function setProfile(event) {
   }
   // user_pubkey_nip_05
   for (small of $(".user_" + pubkey + "_nip_05")) {
-    small.innerText = meta.nip05 || meta.name ? "@" + meta.name : meta.display_name;
+    small.innerText = meta.nip05 || (meta.name ? "@" + meta.name : meta.display_name);
   }
 }
 

@@ -59,11 +59,14 @@
   <script>
     const g = document.getElementById.bind(document);
     function save() {
-      localStorage.setItem("bwhero_addr", g("bwhero_addr").value);
-      localStorage.setItem("bwhero_grayscale", g("bwhero_grayscale").value);
-      localStorage.setItem("bwhero_quality", g("bwhero_quality").value);
-      localStorage.setItem("bwhero_avatar_quality", g("bwhero_avatar_quality").value);
+      for (i of ["bwhero_addr", "bwhero_grayscale", "bwhero_quality", "bwhero_avatar_quality"]) {
+        localStorage.setItem(i, g(i).value);
+      }
       alert("Changes saved.");
+    }
+
+    for (i of ["bwhero_addr", "bwhero_grayscale", "bwhero_quality", "bwhero_avatar_quality"]) {
+      g(i).value = localStorage.getItem(i) || "";
     }
   </script>
 </body>

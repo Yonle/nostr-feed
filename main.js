@@ -152,3 +152,10 @@ function getProfiles() {
   console.log("Fetching profiles....");
   ws.send(JSON.stringify(["REQ", "profiles_" + Math.floor(Date.now() / 1000), filter]));
 }
+
+function go() {
+  location.hash = "#relay=" + $("#ru")[0].value;
+  location.reload();
+}
+
+setInterval(getProfiles, 5000);

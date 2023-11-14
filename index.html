@@ -13,10 +13,18 @@
   <noscript>
     <p style="border: solid 1px red;">This website is a static site that <b>requires JavaScript to work</b> to handle WebSocket connection to Nostr Relay & rendering.</p>
   </noscript>
-  <h1 style="margin-top: 48px;">Nostr Feed</h1>
-  <p>A small, simple and lightweight nostr timeline feed.</p>
+  <h1 id="t" style="margin-top: 48px;">Nostr Feed</h1>
+  <p id="d">A small, simple and lightweight nostr timeline feed.</p>
   <small><a href="https://github.com/Yonle/nostr-feed">Source code</a> - <a href="settings.html">Settings</a></small>
   <br><br><br>
+  <div id="q" style="border: solid 1px black; border-radius: 4px; padding: 5px; display: none;">
+    <form onsubmit="go()">
+      <h4 style="margin-bottom: 5px;">Connect to a nostr relay</h4>
+      <input type="text" id="ru" placeholder="wss://example.com"></input>
+      <button type="submit">Connect</button><br>
+      <input type="text" id="au" placeholder="author pubkey in hex (optional)"></input>
+    </form>
+  </div>
   <div id="posts"></div>
   <script src="main.js"></script>
   <script src="nostr.js"></script>

@@ -2,15 +2,15 @@ const query = new URLSearchParams(location.hash.slice(1));
 const relay = query.get("relay");
 
 if (!relay) {
-  const prompt_relayaddr = prompt("Connect to a relay (Usually begins with wss://....):");
-  if (!prompt_relayaddr) {
-    alert("Well then, This project is not gonna work on it is purpose as there are no default relay.\n\nRefresh the page to try again.");
-  } else {
-    location.hash = "#relay=" + prompt_relayaddr;
-    location.reload();
-  }
+  $("#q")[0].style.display = "block";
+} else {
+  $("#t")[0].innerText = relay;
+  $("#d")[0].style.display = "none";
 }
+
 const ws = new WebSocket(relay);
+
+let filters = { kinds: [0, 1] }
 
 ws.addEventListener("message", ({ data }) => {
   try {
@@ -44,7 +44,7 @@ ws.addEventListener("message", ({ data }) => {
 })
 
 ws.addEventListener("open", _ => {
-  ws.send(JSON.stringify(["REQ", "posts", { kinds: [0, 1] }]));
+  ws.send(JSON.stringify(["REQ", "posts", filters]));
   setTimeout(getProfiles, 3000);
 
   document.title += " - " + relay;

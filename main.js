@@ -18,21 +18,21 @@ function makeMediaElement(line) {
   // Videos
   for (ex of ["mp4", "mov", "webm", "ogv"]) {
     if (line.endsWith("." + ex)) {
-      return `<video controls src="${tMediaURL(line)}"></video>`;
+      return `<video loading="lazy" controls src="${tMediaURL(line)}"></video>`;
     }
   }
 
   // Audios
   for (ex of ["mp3", "aac", "weba", "m4a", "flac", "wav", "ogg", "oga", "opus"]) {
     if (line.endsWith("." + ex)) {
-      return `<audio controls src="${tMediaURL(line)}"></audio>`;
+      return `<audio loading="lazy" controls src="${tMediaURL(line)}"></audio>`;
     }
   }
 
   // Images
   for (ex of ["jpg", "jpeg", "png", "apng", "webp", "avif", "gif"]) {
     if (line.endsWith("." + ex)) {
-      return `<a href="${line}"><img src="${tMediaURL(line)}" /></a>`
+      return `<a href="${line}"><img loading="lazy" src="${tMediaURL(line)}" /></a>`
     }
   }
 }
@@ -77,6 +77,8 @@ function makePostEl(data) {
   prof_info.innerHTML += "<br>";
   prof_info.appendChild(profile_nip_05);
   prof_info.classList.add("profile_info")
+
+  profile_avatar.setAttribute("loading", "lazy");
 
   prof.appendChild(profile_avatar);
   prof.appendChild(prof_info)

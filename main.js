@@ -7,7 +7,7 @@ function tMediaURL(url, isAvatar) {
   const grayscale = localStorage.getItem("bwhero_grayscale") ? 1 : 0;
   const quality = localStorage.getItem("bwhero_quality") || 40;
   const avatar_quality = localStorage.getItem("bwhero_avatar_quality") || 8;
-  if (!bwhero_addr) return url;
+  if (!bwhero_addr) return encodeURI(url);
 
   return `${bwhero_addr}?bw=${grayscale || (query.get("grayscale") ? 1 : 0)}&l=${isAvatar ? avatar_quality : quality}&url=` + encodeURIComponent(url);
 }

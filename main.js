@@ -12,35 +12,39 @@ function tMediaURL(url, isAvatar) {
   return `${bwhero_addr}?bw=${grayscale || (query.get("grayscale") ? 1 : 0)}&l=${isAvatar ? avatar_quality : quality}&url=` + encodeURIComponent(url);
 }
 
-function makeMediaElement(line) {
-  if (!line.startsWith("http")) return line;
+function makeMediaElement(t) {
+  return t.split(" ").map(line => {
+    if (!line.startsWith("http")) return line;
+    const path = line.split("?")[0];
 
-  // Videos
-  for (ex of ["mp4", "mov", "webm", "ogv"]) {
-    if (line.endsWith("." + ex)) {
-      return `<video loading="lazy" controls src="${tMediaURL(line)}"></video>`;
+    // Videos
+    for (ex of ["mp4", "mov", "webm", "ogv"]) {
+      if (path.endsWith("." + ex)) {
+        return `<video loading="lazy" controls src="${tMediaURL(line)}"></video>`;
+      }
     }
-  }
 
-  // Audios
-  for (ex of ["mp3", "aac", "weba", "m4a", "flac", "wav", "ogg", "oga", "opus"]) {
-    if (line.endsWith("." + ex)) {
-      return `<audio loading="lazy" controls src="${tMediaURL(line)}"></audio>`;
+    // Audios
+    for (ex of ["mp3", "aac", "weba", "m4a", "flac", "wav", "ogg", "oga", "opus"]) {
+      if (path.endsWith("." + ex)) {
+        return `<audio loading="lazy" controls src="${tMediaURL(line)}"></audio>`;
+      }
     }
-  }
 
-  // Images
-  for (ex of ["jpg", "jpeg", "png", "apng", "webp", "avif", "gif"]) {
-    if (line.endsWith("." + ex)) {
-      return `<a href="${line}"><img loading="lazy" src="${tMediaURL(line)}" /></a>`
+    // Images
+    for (ex of ["jpg", "jpeg", "png", "apng", "webp", "avif", "gif"]) {
+      if (path.endsWith("." + ex)) {
+        return `<a href="${encodeURI(line)}"><img loading="lazy" src="${tMediaURL(line)}" /></a>`
+      }
     }
-  }
+
+    return line;
+  }).join(" ");
 }
 
 function renderText(text) {
   return text
-    .split("<br>").map(makeMediaElement).join("<br>")
-    .split(" ").map(makeMediaElement).join(" ");
+    .split("<br>").map(makeMediaElement).join("<br>");
 }
 
 function makePostEl(data) {

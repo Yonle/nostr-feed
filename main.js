@@ -38,7 +38,10 @@ function makeMediaElement(t) {
       }
     }
 
-    return line;
+    const a = document.createElement("a");
+    a.href = line;
+    a.innerText = line;
+    return a.innerHTML;
   }).join(" ");
 }
 

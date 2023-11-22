@@ -10,7 +10,7 @@ if (!relay) {
 
 const ws = new WebSocket(relay);
 
-let filters = { kinds: [0, 1] }
+let filters = { kinds: [0, 1], limit: 30 }
 
 ws.addEventListener("message", ({ data }) => {
   try {
